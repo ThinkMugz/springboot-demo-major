@@ -13,12 +13,8 @@ import org.elasticsearch.search.aggregations.AggregationBuilder;
 import org.elasticsearch.search.aggregations.AggregationBuilders;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.cglib.beans.BeanMap;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import javax.annotation.Resource;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
@@ -34,7 +30,7 @@ public class AggTest {
     /**
      * todo 初始化客户端
      */
-    RestHighLevelClient client = new RestHighLevelClient(RestClient.builder(new HttpHost("82.157.165.196", 9200)));
+    RestHighLevelClient client = new RestHighLevelClient(RestClient.builder(new HttpHost("", 9200)));
 
     // todo 根据索引构造查询请求
     SearchRequest searchRequest = new SearchRequest(PERSON_INDEX);

@@ -16,10 +16,6 @@ import org.elasticsearch.index.query.Operator;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -46,7 +42,7 @@ public class QueryTest {
     /**
      *
      */
-    RestHighLevelClient client = new RestHighLevelClient(RestClient.builder(new HttpHost("82.157.165.196", 9200)));
+    RestHighLevelClient client = new RestHighLevelClient(RestClient.builder(new HttpHost("", 9200)));
 
     SearchRequest searchRequest = new SearchRequest(PERSON_INDEX);
 
