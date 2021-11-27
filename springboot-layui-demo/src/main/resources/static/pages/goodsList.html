@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>腾讯官网</title>
+    <!--根据自己的项目目录修改-->
+    <!--表示引用css文件-->
+    <link rel="stylesheet" href="../layui/css/layui.css" media="all"/>
+</head>
+
+<body>
+
+<!--头部-->
+<div style="margin: 10px 0 10px 1%;width: 99%">
+    <div style="display: table-cell">
+        <form class="layui-form" id="search_form">
+            <div class="layui-input-block" style="display: table-cell">
+                <!--            <label>&emsp;接&emsp;口&emsp;</label>-->
+                <div class="layui-input-inline" style="width: 260px">
+                    <input type="text" name="sect" placeholder="请输入武侠门派 支持模糊查询"
+                           autocomplete="off" class="layui-input">
+                </div>
+            </div>
+
+            <div style="display: table-cell">
+                <button class="layui-btn layui-btn-sm layui-btn-danger" lay-submit lay-filter="search"
+                        style="margin-left: 15px"><i class="layui-icon">&#xe615;</i>搜&emsp;索
+                </button>
+                <button type="reset" class="layui-btn layui-btn-primary layui-btn-sm">
+                    <i class="layui-icon">&#xe631;</i>重&emsp;置
+                </button>
+            </div>
+        </form>
+    </div>
+    <div style="display: table-cell">
+        <div style="display: table">
+            <!--新增-->
+            <div style="display: table-cell">
+                <button id="add" class="layui-btn layui-btn-sm" style="margin-left: 15px">
+                    <i class="layui-icon">&#xe608;</i> 新&emsp;增
+                </button>
+            </div>
+            <!--刷新-->
+            <div style="display: table-cell;">
+                <button id="refresh" class="layui-btn layui-btn-normal layui-btn-sm" style="margin-left: 15px">
+                    <i class="layui-icon">&#xe669;</i> 刷&emsp;新
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<div>
+    <!--    我在这放置了一个表格-->
+    <table id="persons_table" lay-filter="persons_bar"></table>
+</div>
+<!--弹出层-->
+<div class="layui-row" id="open_div" style="display:none;">
+    <form id="add_form" class="layui-form" action="" style="margin-top: 20px;align:center;">
+        <!--隐藏字段action，用来区分增加和编辑行为-->
+        <input type="hidden" name="action" id="action">
+        <!--隐藏字段id，用于提供编辑需要的主键-->
+        <input type="hidden" name="id" id="id">
+        <!--隐藏字段request_type，用于提供请求方式:get,post,put-->
+        <input type="hidden" name="request_type" id="request_type">
+
+        <div class="layui-form-item" style="display: table;width: 96%">
+            <div class="layui-form-item" style="display: table-cell;width: 33%">
+                <label class="layui-form-label">姓&emsp;&emsp;名</label>
+                <div class="layui-input-block">
+                    <input type="text" name="name" placeholder="请输入武侠姓名"
+                           autocomplete="off" class="layui-input" lay-verify="required">
+                </div>
+            </div>
+            <div class="layui-form-item" style="display: table-cell;width: 33%">
+                <label class="layui-form-label">年&emsp;&emsp;龄</label>
+                <div class="layui-input-block">
+                    <input type="text" name="age" placeholder="请输入武侠年龄"
+                           autocomplete="off" class="layui-input" lay-verify="required">
+                </div>
+            </div>
+            <div class="layui-form-item" style="display: table-cell;width: 33%">
+                <label class="layui-form-label">年&emsp;&emsp;龄</label>
+                <div class="layui-input-block">
+                    <input type="text" name="age" placeholder="请输入武侠年龄"
+                           autocomplete="off" class="layui-input" lay-verify="required">
+                </div>
+            </div>
+        </div>
+
+        <div class="layui-form-item" style="display: table;width: 96%">
+            <div class="layui-form-item" style="display: table-cell;width: 50%">
+                <label class="layui-form-label">性&emsp;&emsp;别</label>
+                <div class="layui-input-block">
+                    <select name="skill" lay-filter="sex" lay-verify="required">
+                        <option value="">请选择</option>
+                        <option value="男">男</option>
+                        <option value="女">女</option>
+                    </select>
+                </div>
+            </div>
+            <div class="layui-form-item" style="display: table-cell;width: 50%">
+                <label class="layui-form-label">门&emsp;&emsp;派</label>
+                <div class="layui-input-block">
+                    <input type="text" name="sect" placeholder="请输入武侠门派"
+                           autocomplete="off" class="layui-input" lay-verify="required">
+                </div>
+            </div>
+        </div>
+        <div class="layui-form-item" style="display: table;width: 96%">
+
+            <div class="layui-form-item" style="display: table-cell;width: 50%">
+                <label class="layui-form-label">绝&emsp;&emsp;技</label>
+                <div class="layui-input-block">
+                    <input type="text" name="sex" placeholder="请输入武侠绝技"
+                           autocomplete="off" class="layui-input" lay-verify="required">
+                </div>
+            </div>
+            <div class="layui-form-item" style="display: table-cell;width: 50%">
+                <label class="layui-form-label">战&ensp;力&ensp;值</label>
+                <div class="layui-input-block">
+                    <input type="text" name="power" placeholder="请输入武侠战力值"
+                           autocomplete="off" class="layui-input" lay-verify="required">
+                </div>
+            </div>
+
+        </div>
+        <div class="layui-form-item" style="display: table;width: 96%">
+            <div class="layui-form-item" style="display: table-cell;">
+                <label class="layui-form-label">地&emsp;&emsp;址</label>
+                <div class="layui-input-block">
+                    <input type="text" name="address" placeholder="请输入地址"
+                           autocomplete="off" class="layui-input" lay-verify="required">
+                </div>
+            </div>
+        </div>
+        <div class="layui-form-item" style="margin-left: 40%">
+            <div class="layui-btn-group">
+                <button class="layui-btn" lay-submit="" lay-filter="update_submit">提&ensp;交</button>
+                <button type="reset" class="layui-btn layui-btn-primary">重&ensp;置</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+<!--行工具按钮-->
+<script type="text/html" id="persons_lineBar">
+    <a class="layui-btn layui-btn-xs layui-btn" lay-event="edit">编辑</a>
+    <a class="layui-btn layui-btn-xs layui-btn-danger" lay-event="del">删除</a>
+</script>
+
+<!--引用js-->
+<script src="../layui/layui.js"></script>
+<script src="../js/lib/jquery-2.1.1.min.js"></script>
+<script src="../utils/common.js"></script>
+<!--写方法的地方-->
+<script>
+    layui.use(['table', 'layer', 'form', 'laypage'], function () {
+        var table = layui.table;
+        var form = layui.form;
+
+        // 对表格进行渲染
+        table.render({
+            <!-- 通过id的方式定位元素，并绑定-->
+            elem: '#persons_table'
+            , id: 'personsTable'
+            , even: true //开启隔行背景
+            , url: '/person/personsList'
+            , request: {
+                pageName: 'pageNum',
+                limitName: 'pageSize'
+            }
+            // 开启头部工具行
+            , toolbar: '#persons_bar'
+            , title:
+                '武侠详情表'
+            , page:
+                true //开启分页
+            , limit: 10  // 默认多少行一页
+            , limits: [1, 2, 5, 10, 20, 30, 50, 100]
+            , cols:
+                [[{field: 'number', title: '序号', width: 50, align: 'center', type: 'numbers'}
+                    , {field: 'id', title: 'ID', align: 'center', hide: true}
+                    , {field: 'name', title: '姓名', width: '13%', align: 'center'}
+                    , {field: 'age', title: '年&emsp;龄', width: '8%', align: 'center'}
+                    , {field: 'sex', title: '性&emsp;别', width: '8%', align: 'center'}
+                    , {field: 'address', title: '地&emsp;址', width: '15%', align: 'center'}
+                    , {field: 'sect', title: '门&emsp;派', width: '10%', align: 'center'}
+                    , {field: 'skill', title: '绝&emsp;技', width: '10%', align: 'center'}
+                    , {field: 'power', title: '战&ensp;力&ensp;值', width: '9%', align: 'center'}
+                    , {field: 'modifyTime', title: '更新时间', align: 'center'}
+                    , {
+                        fixed: 'right',
+                        title: '操作',
+                        toolbar: '#persons_lineBar',
+                        width: 135,
+                        align: 'center'
+                    }
+                ]]
+        });
+
+
+        $("#refresh").click(function () {
+            // 执行一个表格重载即实现刷新功能
+            table.reload('personsTable', {
+                where: '',
+                contentType: 'application/x-www-form-urlencoded',
+                page: {
+                    curr: 1 //重新从第 1 页开始
+                },
+                url: '/person/personsList',
+                method: 'get'
+            });
+        });
+
+        $("#add").click(function () {
+            const data = {};
+            data.action = 'addPerson';
+            data.request_type = 'post';
+
+            // 调用打开弹层的工具方法
+            open_form("#open_div", data, '添加武侠', '680px', '360px');
+        });
+
+        table.on('tool(persons_bar)', function (obj) {
+            var data = obj.data;
+            var layEvent = obj.event;
+            var id = data.id;
+            console.log("obj------->", obj);
+
+
+            switch (layEvent) {
+                case 'edit':
+                    // 根据编辑行为为form隐藏项赋值
+                    data.action = 'updatePerson';
+                    data.request_type = 'post';
+                    open_form("#open_div", data, '修改武侠信息', '680px', '360px');
+                    break;
+                case 'del':
+                    layer.confirm('真的删除该行么', function (index) {
+                        obj.del(); //删除对应行（tr）的DOM结构，并更新缓存
+                        //向服务端发送删除指令
+                        $.ajax({
+                            type: "get",  //数据提交方式(post/get)
+                            url: "/person/deletePersonById?id=" + id,  //提交到的url
+                            contentType: "application/json; charset=utf-8",
+                            dataType: "json",//返回的数据类型格式
+                            success: function (result) {
+                                table.reload('personsTable', {
+                                    contentType: 'application/x-www-form-urlencoded',
+                                    page: {
+                                        curr: 1 //重新从第 1 页开始
+                                    },
+                                    url: '/person/personsList',
+                                    method: 'get'
+                                });
+                                layer.msg(result.msg, {icon: 1, time: 1000});
+
+                            }, error: function (e) {
+                                console.log(e, 'error');
+                                layer.msg("删除武侠异常，请联系管理员！", {icon: 1, time: 1000});
+                            }
+                        });
+                        layer.close(index);
+                    });
+                case 'show':
+                    alert(obj.data);
+                    break;
+            }
+        });
+
+        <!--        表单提交方法-->
+        form.on('submit(update_submit)', function (data) {
+            var uri = data.field.action;
+            var type = data.field.request_type;
+            console.log(data);
+            $.ajax({
+                type: type,
+                url: '/person/' + uri,
+                contentType: "application/json; charset=utf-8",
+                data: JSON.stringify(data.field),
+                dataType: "json",
+                <!--                成功回调-->
+                success: function (result) {
+                    if (result.code == "0") {
+                        table.reload('personsTable', {
+                            contentType: 'application/x-www-form-urlencoded',
+                            page: {
+                                curr: 1 //重新从第 1 页开始
+                            },
+                            url: '/person/personsList',
+                            method: 'get'
+                        });
+                        layer.msg('修改成功', {icon: 1, time: 5000});
+                    } else {  //失败
+                        layer.alert(result.msg, {icon: 2}, function () {
+                            layer.close(index);
+                        });
+                    }
+                }
+            });
+            layer.close(index);//关闭弹出层
+            return false; //表示表单不跳转
+        });
+
+        // 监听搜索按钮提交事件
+        form.on('submit(search)', function (data) {
+            var formData = data.field;
+            var count = checkForm("search_form");
+            if (count !== 0) {
+                //数据表格重载
+                tableReload('personsTable', formData, "application/json; charset=utf-8", '/person/searchPerson', 'post');
+            } else {
+                parent.layer.msg('请先选择查询条件！', {icon: 2, time: 1500});
+            }
+            return false;
+        });
+    });
+</script>
+</body>
+</html>

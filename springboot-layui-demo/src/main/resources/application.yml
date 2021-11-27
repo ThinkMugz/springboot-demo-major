@@ -1,0 +1,27 @@
+server:
+  port: 8090
+spring:
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://82.157.165.196:3306?useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&useSSL=false
+    username: root
+    password: Mu2021
+
+mybatis:
+  type-aliases-package: com.demo.model
+  configuration:
+    map-underscore-to-camel-case: true # 驼峰命名规范
+  # 指定xml文件的路径
+  mapper-locations: classpath:/mappers/*.xml
+
+# 日志读取哪个xml文件
+logging:
+  config: classpath:logback-spring.xml
+log:
+  level:
+    root: error
+    common: info
+    sql: info
+  file: springboot-layui-demo/logs/springboot-demo
+  maxsize: 30MB

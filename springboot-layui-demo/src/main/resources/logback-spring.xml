@@ -1,0 +1,60 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<configuration>
+    <!--source读取自配置文件-->
+    <springProperty name="logFile" source="log.file"/>
+    <springProperty name="rootLevel" source="log.level.root"/>
+    <springProperty name="commonLevel" source="log.level.common"/>
+    <springProperty name="sqlLevel" source="log.level.sql"/>
+    <springProperty name="maxFileSize" source="log.maxsize"/>
+
+    <!--控制台日志-->
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d [%thread] %-5level %logger{50} -[%file:%line]- %msg%n</pattern>
+            <charset>UTF-8</charset>
+        </encoder>
+    </appender>
+    <logger name="com.demo" additivity="false">
+        <level value="${rootLevel}"/>
+        <appender-ref ref="STDOUT"/>
+    </logger>
+
+    <!--常规日志-->
+    <appender name="commonLog" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${logFile}.log</file>
+        <encoder>
+            <pattern>%d [%thread] %-5level -[%file:%line]- %msg%n</pattern>
+            <charset>UTF-8</charset>
+        </encoder>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>${logFile}-%d{yyyy-MM}-%i.log</fileNamePattern>
+            <maxFileSize>${maxFileSize}</maxFileSize>
+        </rollingPolicy>
+    </appender>
+    <logger name="com.demo" additivity="false">
+        <level value="${commonLevel}"/>
+        <appender-ref ref="commonLog"/>
+    </logger>
+
+    <!--sql日志-->
+    <appender name="sqlLog" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${logFile}-sql.log</file>
+        <encoder>
+            <pattern>%d [%thread] %msg%n</pattern>
+            <charset>UTF-8</charset>
+        </encoder>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>${logFile}-sql.%d{yyyy-MM}.%i.log</fileNamePattern>
+            <maxFileSize>${maxFileSize}</maxFileSize>
+        </rollingPolicy>
+    </appender>
+<!--    <logger name="com.demo.dao" level="${sqlLevel}" additivity="true">-->
+    <logger name="com.demo.dao" level="info" additivity="true">
+        <appender-ref ref="sqlLog"/>
+    </logger>
+
+    <root level="${rootLevel}">
+        <appender-ref ref="STDOUT"/>
+        <!--<appender-ref ref="errorLog"/>-->
+    </root>
+</configuration>

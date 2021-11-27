@@ -1,0 +1,17 @@
+server:
+  port: 8092
+spring:
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://10.170.157.109:3306?useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&useSSL=false
+    username: clps
+    password: clps
+#    type: com.alibaba.druid.pool.DruidDataSource
+#    driver-class-name: com.mysql.jdbc.Driver
+#    url: jdbc:mysql://39.105.21.19:3306?useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&useSSL=false
+#    username: root
+#    password: Mu2018
+elasticsearch:
+  host: 82.157.165.196
+  port: 9200

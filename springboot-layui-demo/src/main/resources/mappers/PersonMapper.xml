@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.demo.dao.PersonDao">
+    <resultMap id="Person" type="com.demo.model.Person">
+        <result column="create_time" property="createTime"/>
+        <result column="modify_time" property="modifyTime"/>
+    </resultMap>
+
+    <select id="getPersonsList" resultMap="Person">
+        SELECT *
+        from mytest.persons
+        order by modify_time desc
+    </select>
+
+    <select id="searchPerson" resultMap="Person">
+        SELECT
+        *
+        from
+        mytest.persons
+        <where>
+            1 = 1
+            <if test="id != null">and id = #{id}</if>
+            <if test="name != null">and name like concat('%',#{name},'%')</if>
+            <if test="age != null">and age = #{age}</if>
+            <if test="sex != null">and sex = #{sex}</if>
+            <if test="address != null">and address = #{address}</if>
+            <if test="sect != null">and sect = #{sect}</if>
+            <if test="skill != null">and skill = #{skill}</if>
+            <if test="power != null">and power = #{power}</if>
+        </where>
+    </select>
+
+    <update id="updatePerson" parameterType="com.demo.model.Person">
+        UPDATE
+        mytest.persons
+        <set>
+            <if test="name != null">name = #{name},</if>
+            <if test="age != null">age = #{age},</if>
+            <if test="sex != null">sex = #{sex},</if>
+            <if test="address != null">address = #{address},</if>
+            <if test="sect != null">sect = #{sect},</if>
+            <if test="skill != null">skill = #{skill},</if>
+            <if test="power != null">power = #{power}</if>
+        </set>
+        WHERE
+        id = #{id}
+    </update>
+
+    <update id="updatePersonBatch" parameterType="java.util.List">
+        <foreach collection="list" item="item" index="index">
+            UPDATE mytest.persons
+            <set>
+                <if test="item.name != null">
+                    name=#{item.name},
+                </if>
+                <if test="item.age != null">
+                    age=#{item.age},
+                </if>
+                <if test="item.sex != null">
+                    sex=#{item.sex},
+                </if>
+                <if test="item.address != null">
+                    address=#{item.address},
+                </if>
+                <if test="item.sect != null">
+                    sect=#{item.sect},
+                </if>
+                <if test="item.skill != null">
+                    skill=#{item.skill},
+                </if>
+                <if test="item.power != null">
+                    power=#{item.power},
+                </if>
+            </set>
+            WHERE
+            id=#{item.id};
+        </foreach>
+    </update>
+
+    <insert id="addPerson" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO mytest.persons
+            (name, age, sex, address, sect, skill, power)
+        VALUES (#{name}, #{age}, #{sex}, #{address}, #{sect}, #{skill}, #{power})
+    </insert>
+</mapper>
