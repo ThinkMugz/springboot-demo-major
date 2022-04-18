@@ -1,2 +1,15 @@
 server:
   port: 8089
+
+spring:
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://localhost:3306?useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&useSSL=false
+    username: root
+    password:
+
+mybatis:
+  type-aliases-package: com.quartz.demo.entity
+  configuration:
+    map-underscore-to-camel-case: true # 驼峰命名规范

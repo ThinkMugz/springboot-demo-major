@@ -4,7 +4,6 @@ import com.alibaba.fastjson.JSON;
 import lombok.extern.slf4j.Slf4j;
 import org.quartz.*;
 import org.quartz.impl.StdSchedulerFactory;
-import org.quartz.spi.JobStore;
 
 /**
  * @author muguozheng
@@ -53,7 +52,6 @@ public class QuartzUtils {
         try {
             scheduler.scheduleJob(jobDetail, trigger);
             scheduler.start();
-            log.info("定时任务运行结束，即将关闭！jobDetail:{}", JSON.toJSON(jobDetail));
             System.out.println("当前触发器：" + scheduler.getTriggerGroupNames());
         } catch (SchedulerException e) {
             log.error("定时任务异常,jobDetail:{},e:{}", JSON.toJSON(jobDetail), e.getMessage());
@@ -68,7 +66,7 @@ public class QuartzUtils {
      * @param triggerGroupName triggerGroupName
      * @return true or false
      */
-    public static boolean pauseTrigger( String triggerName, String triggerGroupName) {
+    public static boolean pauseTrigger(String triggerName, String triggerGroupName) {
 
         try {
             TriggerKey triggerKey = TriggerKey.triggerKey(triggerName, triggerGroupName);
@@ -112,6 +110,44 @@ public class QuartzUtils {
     }
 
     /**
+     * 暂停job
+     *
+     * @param jobName      jobName
+     * @param jobGroupName jobGroupName
+     * @return true or false
+     */
+    public static boolean pauseJob(String jobName, String jobGroupName) {
+
+        try {
+            JobKey jobKey = JobKey.jobKey(jobName, jobGroupName);
+            scheduler.pauseJob(jobKey);
+            return true;
+        } catch (SchedulerException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    /**
+     * 恢复job
+     *
+     * @param jobName      jobName
+     * @param jobGroupName jobGroupName
+     * @return true or false
+     */
+    public static boolean resumeJob(String jobName, String jobGroupName) {
+
+        try {
+            JobKey jobKey = JobKey.jobKey(jobName, jobGroupName);
+            scheduler.resumeJob(jobKey);
+            return true;
+        } catch (SchedulerException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    /**
      * 终止并删除触发器和任务
      *
      * @param jobName          任务名称
@@ -125,7 +161,7 @@ public class QuartzUtils {
             TriggerKey triggerKey = TriggerKey.triggerKey(triggerName, triggerGroupName);
             JobKey jobKey = JobKey.jobKey(jobName, jobGroupName);
             Trigger trigger = scheduler.getTrigger(triggerKey);
-            if (trigger == null) {
+            if (null == trigger) {
                 return false;
             }
             scheduler.pauseTrigger(triggerKey); // 停止触发器
