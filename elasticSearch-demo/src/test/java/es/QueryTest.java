@@ -1,7 +1,6 @@
 package es;
 
 import com.alibaba.fastjson.JSONObject;
-import com.es.EsDemoApplication;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.http.HttpHost;
 import org.elasticsearch.action.get.GetRequest;
@@ -51,7 +50,7 @@ public class QueryTest {
     /**
      * 通过id查询文档
      *
-     * @throws IOException
+     * @throws IOException e
      */
     @Test
     public void queryDocumentById() throws IOException {
@@ -63,7 +62,7 @@ public class QueryTest {
     /**
      * term等值查询，等同于 = 查询
      *
-     * @throws IOException
+     * @throws IOException e
      */
     @Test
     public void termQueryTest() throws IOException {
@@ -78,7 +77,7 @@ public class QueryTest {
     /**
      * constantScoreQuery，不打分查询
      *
-     * @throws IOException
+     * @throws IOException e
      */
     @Test
     public void constantScoreQueryTest() throws IOException {
@@ -93,7 +92,7 @@ public class QueryTest {
     /**
      * terms多值查询，等同于 in 查询
      *
-     * @throws IOException
+     * @throws IOException e
      */
     @Test
     public void termsQueryTest() throws IOException {
@@ -108,7 +107,7 @@ public class QueryTest {
      * 范围查询，等同于between...and...
      * select * from persons where age between 10 and 30
      *
-     * @throws IOException
+     * @throws IOException e
      */
     @Test
     public void rangeQueryTest() throws IOException {
@@ -124,7 +123,7 @@ public class QueryTest {
      * 前缀查询，等同于 李%
      * select * from person where sect like ‘武当%’
      *
-     * @throws IOException
+     * @throws IOException e
      */
     @Test
     public void prefixQueryTest() throws IOException {
@@ -139,7 +138,7 @@ public class QueryTest {
     /**
      * 通配符查询，等同于 %无%
      *
-     * @throws IOException
+     * @throws IOException e
      */
     @Test
     public void wildcardQueryTest() throws IOException {
@@ -154,7 +153,7 @@ public class QueryTest {
     /**
      * 布尔查询，构造多条件查询
      *
-     * @throws IOException
+     * @throws IOException e
      */
     @Test
     public void boolQueryTest() throws IOException {
@@ -203,7 +202,7 @@ public class QueryTest {
     /**
      * filter直接包含查询语句
      *
-     * @throws IOException
+     * @throws IOException e
      */
     @Test
     public void filterTest() throws IOException {
@@ -223,7 +222,7 @@ public class QueryTest {
     /**
      * filter与must等同级使用
      *
-     * @throws IOException
+     * @throws IOException e
      */
     @Test
     public void filterTest2() throws IOException {
@@ -241,7 +240,7 @@ public class QueryTest {
     /**
      * filter包含must等
      *
-     * @throws IOException
+     * @throws IOException e
      */
     @Test
     public void filterTest3() throws IOException {
@@ -261,7 +260,7 @@ public class QueryTest {
     /**
      * filter
      *
-     * @throws IOException
+     * @throws IOException e
      */
     @Test
     public void filterTest4() throws IOException {
@@ -286,7 +285,7 @@ public class QueryTest {
     /**
      * match：单条件匹配
      *
-     * @throws IOException
+     * @throws IOException e
      */
     @Test
     public void matchQueryTest() throws IOException {
@@ -301,13 +300,11 @@ public class QueryTest {
     /**
      * multiMatch：多field对同一个text匹配
      *
-     * @throws IOException
+     * @throws IOException e
      */
     @Test
     public void multiMatchQueryTest() throws IOException {
-        /**
-         * operator传入AND或OR，决定了多个匹配条件之间的关系是与还是或
-         */
+        // operator传入AND或OR，决定了多个匹配条件之间的关系是与还是或
         searchSourceBuilder.query(QueryBuilders.multiMatchQuery("武当", "sect", "address")
                 .operator(Operator.valueOf("AND"))
                 .minimumShouldMatch("50%"));
@@ -317,5 +314,4 @@ public class QueryTest {
         SearchResponse response = client.search(searchRequest, RequestOptions.DEFAULT);
         System.out.println("查询结果=====================》" + JSONObject.toJSON(response));
     }
-
 }

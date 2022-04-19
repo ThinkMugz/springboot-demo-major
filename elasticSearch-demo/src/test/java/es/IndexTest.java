@@ -21,7 +21,7 @@ import java.util.Map;
  * @author muguozheng
  * @version 1.0.0
  * @createTime 2021/11/26 17:38
- * @description TODO
+ * @description 索引测试
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest(classes = EsDemoApplication.class)
@@ -55,7 +55,7 @@ public class IndexTest {
     /**
      * 添加索引
      *
-     * @throws IOException
+     * @throws IOException e
      */
     @Test
     public void addIndex() throws IOException {

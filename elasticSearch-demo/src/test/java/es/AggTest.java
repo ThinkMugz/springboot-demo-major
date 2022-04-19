@@ -27,12 +27,12 @@ import java.util.Map;
  */
 @Slf4j
 public class AggTest {
-    /**
-     * todo 初始化客户端
+    /*
+     * 初始化客户端
      */
     RestHighLevelClient client = new RestHighLevelClient(RestClient.builder(new HttpHost("", 9200)));
 
-    // todo 根据索引构造查询请求
+    // 根据索引构造查询请求
     SearchRequest searchRequest = new SearchRequest(PERSON_INDEX);
     SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
 
@@ -45,7 +45,7 @@ public class AggTest {
     /**
      * 统计查询：max、min、sum、avg、count
      *
-     * @throws IOException
+     * @throws IOException e
      */
     @Test
     public void maxQueryTest() throws IOException {
@@ -67,7 +67,7 @@ public class AggTest {
      * stats:一并求max、min、sum、count、avg
      * extendedStats：追加方差、标准差等
      *
-     * @throws IOException
+     * @throws IOException e
      */
     @Test
     public void statsQueryTest() throws IOException {
@@ -87,7 +87,7 @@ public class AggTest {
     /**
      * 先查询，再统计
      *
-     * @throws IOException
+     * @throws IOException e
      */
     @Test
     public void queryAndAggQueryTest() throws IOException {
@@ -107,7 +107,7 @@ public class AggTest {
     /**
      * 去重查询
      *
-     * @throws IOException
+     * @throws IOException e
      */
     @Test
     public void cardinalityQueryTest() throws IOException {
@@ -127,7 +127,7 @@ public class AggTest {
     /**
      * 分组查询
      *
-     * @throws IOException
+     * @throws IOException e
      */
     @Test
     public void groupQueryTest() throws IOException {
@@ -166,7 +166,7 @@ public class AggTest {
     /**
      * 多字段分组
      *
-     * @throws IOException
+     * @throws IOException e
      */
     @Test
     public void multiGroupQueryTest() throws IOException {
@@ -234,9 +234,9 @@ public class AggTest {
     /**
      * bean转为map
      *
-     * @param bean
-     * @param <T>
-     * @return
+     * @param bean bean
+     * @param <T>  T
+     * @return T
      */
     public static <T> Map<String, Object> beanToMap(T bean) {
         Map<String, Object> map = new HashMap<>();
