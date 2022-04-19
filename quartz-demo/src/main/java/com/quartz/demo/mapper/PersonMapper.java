@@ -1,8 +1,8 @@
 package com.quartz.demo.mapper;
 
 import com.quartz.demo.entity.Person;
-import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
@@ -12,7 +12,7 @@ import java.util.List;
  * @createTime 2022/4/18 16:57
  * @description person数据层
  */
-@Mapper
+@Service("personMapper")
 public interface PersonMapper {
     @Select("select id,name,age,sex,address,sect,skill,power,create_time createTime,modify_time modifyTime from mytest.persons")
     List<Person> queryList();

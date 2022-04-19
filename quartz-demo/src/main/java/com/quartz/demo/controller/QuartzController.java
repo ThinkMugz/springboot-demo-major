@@ -41,7 +41,7 @@ public class QuartzController {
                 .usingJobData("jobName", "QuartzDemo")
                 .build();
         // 将mapper放入jobDetail的jobDataMap中
-        jobDetail.getJobDataMap().put("personMapper", personMapper);
+        // jobDetail.getJobDataMap().put("personMapper", personMapper);
 
         Date start = new Date();
         start.setTime(start.getTime() + 10000);
