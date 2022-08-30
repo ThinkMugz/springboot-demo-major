@@ -1,0 +1,9 @@
+server:
+  port: 8031
+
+spring:
+  data:
+    mongodb:
+      host: 82.157.165.196
+      port: 27017
+      database: testPlatform
