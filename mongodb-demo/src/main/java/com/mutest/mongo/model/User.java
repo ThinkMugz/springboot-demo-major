@@ -3,8 +3,6 @@ package com.mutest.mongo.model;
 import lombok.Data;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.time.LocalDateTime;
-
 /**
  * @author muguozheng
  * @version 1.0.0
@@ -17,7 +15,7 @@ public class User {
     private String id;
     private String username;
     private String password;
-    private int age;
+    private Integer age;
     private String city;
     private String createTime;
 }

@@ -163,9 +163,8 @@ public abstract class MongoDbDao<T> {
     /**
      * 将查询条件对象转换为query
      *
-     * @param object
-     * @return
-     * @author Jason
+     * @param object 对象
+     * @return Query
      */
     private Query getQueryByObject(T object) {
         Query query = new Query();
@@ -184,9 +183,8 @@ public abstract class MongoDbDao<T> {
     /**
      * 将查询条件对象转换为update
      *
-     * @param object
-     * @return
-     * @author Jason
+     * @param object 查询条件对象
+     * @return update
      */
     private Update getUpdateByObject(T object) {
         Update update = new Update();
@@ -202,8 +200,8 @@ public abstract class MongoDbDao<T> {
 
     /***
      * 获取对象属性返回字符串数组
-     * @param o
-     * @return
+     * @param o 对象
+     * @return 字段数组
      */
     private static String[] getFieldName(Object o) {
         Field[] fields = o.getClass().getDeclaredFields();
@@ -220,8 +218,8 @@ public abstract class MongoDbDao<T> {
      * 根据属性获取对象属性值
      *
      * @param fieldName 字段名称
-     * @param o
-     * @return
+     * @param o         对象
+     * @return 属性值
      */
     private static Object getFieldValueByName(String fieldName, Object o) {
         try {

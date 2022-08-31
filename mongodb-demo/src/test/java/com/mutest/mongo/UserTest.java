@@ -15,7 +15,7 @@ import java.time.format.DateTimeFormatter;
  * @author muguozheng
  * @version 1.0.0
  * @createTime 2022/8/30 16:08
- * @description TODO
+ * @description mongo测试
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest(classes = MongoApplication.class)
@@ -34,5 +34,14 @@ public class UserTest {
         user.setCreateTime(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
 
         userService.saveUser(user);
+    }
+
+    @Test
+    public void queryListTest() {
+        User user = new User();
+        user.setCity("北京市");
+        user.setAge(19);
+
+        System.out.println(userService.queryList(user));
     }
 }

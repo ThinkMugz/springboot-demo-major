@@ -6,15 +6,13 @@ import com.mutest.mongo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 /**
  * @author muguozheng
  * @version 1.0.0
  * @createTime 2022/8/30 15:59
- * @description TODO
+ * @description mongo测试类
  */
 @Service
 public class UserServiceImpl implements UserService {
@@ -27,7 +25,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<User> queryUerById(User user) {
+    public List<User> queryList(User user) {
         return userMongoDbDao.queryList(user);
     }
 }

@@ -4,6 +4,6 @@ server:
 spring:
   data:
     mongodb:
-      host: 82.157.165.196
+      host: xxx
       port: 27017
-      database: testPlatform
+      database: xxx
