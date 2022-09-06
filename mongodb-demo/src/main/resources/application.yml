@@ -6,4 +6,7 @@ spring:
     mongodb:
       host: xxx
       port: 27017
-      database: xxx
+      database: testPlatform
+      authentication-database: admin
+      username: muguozheng
+      password: xxx
