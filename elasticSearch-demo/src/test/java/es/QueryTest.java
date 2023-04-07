@@ -3,21 +3,31 @@ package es;
 import com.alibaba.fastjson.JSONObject;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.http.HttpHost;
+import org.apache.http.auth.AuthScope;
+
+import org.apache.http.auth.UsernamePasswordCredentials;
+import org.apache.http.client.CredentialsProvider;
+import org.apache.http.impl.client.BasicCredentialsProvider;
+import org.apache.http.impl.nio.client.HttpAsyncClientBuilder;
+import org.elasticsearch.action.admin.indices.alias.Alias;
+import org.elasticsearch.action.admin.indices.alias.get.GetAliasesRequest;
 import org.elasticsearch.action.get.GetRequest;
 import org.elasticsearch.action.get.GetResponse;
 import org.elasticsearch.action.search.SearchRequest;
 import org.elasticsearch.action.search.SearchResponse;
-import org.elasticsearch.client.RequestOptions;
-import org.elasticsearch.client.RestClient;
-import org.elasticsearch.client.RestHighLevelClient;
+import org.elasticsearch.client.*;
+import org.elasticsearch.cluster.metadata.AliasMetadata;
 import org.elasticsearch.index.query.BoolQueryBuilder;
 import org.elasticsearch.index.query.Operator;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
+import org.junit.Before;
 import org.junit.Test;
 
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * @author muguozheng
@@ -41,11 +51,41 @@ public class QueryTest {
     /**
      *
      */
-    RestHighLevelClient client = new RestHighLevelClient(RestClient.builder(new HttpHost("", 9200)));
+    RestHighLevelClient client;
+
 
     SearchRequest searchRequest = new SearchRequest(PERSON_INDEX);
 
     SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
+
+
+    @Before
+    public void doBefore() {
+        System.out.println("连接");
+        final CredentialsProvider credentialsProvider = new BasicCredentialsProvider();
+        credentialsProvider.setCredentials(AuthScope.ANY, new UsernamePasswordCredentials("elastic", "Mu20230208$"));
+        client = new RestHighLevelClient(
+                RestClient.builder(new HttpHost("82.157.165.196", 9200, "http"))
+                        .setHttpClientConfigCallback(httpClientBuilder -> {
+                            httpClientBuilder.disableAuthCaching();
+                            return httpClientBuilder.setDefaultCredentialsProvider(credentialsProvider);
+                        }));
+    }
+
+    @Test
+    public void indexTest(){
+        try {
+            GetAliasesRequest request = new GetAliasesRequest();
+            GetAliasesResponse getAliasesResponse =  client.indices().getAlias(request,RequestOptions.DEFAULT);
+            Map<String, Set<AliasMetadata>> map = getAliasesResponse.getAliases();
+            Set<String> indices = map.keySet();
+            for (String key : indices) {
+                System.out.println(key);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
     /**
      * 通过id查询文档
@@ -54,9 +94,11 @@ public class QueryTest {
      */
     @Test
     public void queryDocumentById() throws IOException {
+
         GetRequest getRequest = new GetRequest(PERSON_INDEX, "1");
         GetResponse response = client.get(getRequest, RequestOptions.DEFAULT);
         System.out.println("geqPersonById================》" + JSONObject.toJSON(response));
+        client.close();
     }
 
     /**
@@ -96,7 +138,7 @@ public class QueryTest {
      */
     @Test
     public void termsQueryTest() throws IOException {
-        searchSourceBuilder.query(QueryBuilders.termsQuery("sect.keyword", Arrays.asList("明教", "武当派")));
+        searchSourceBuilder.query(QueryBuilders.termsQuery("sect", Arrays.asList("明教", "武当派")));
         System.out.println("查询语句=====================》" + searchSourceBuilder);
         searchRequest.source(searchSourceBuilder);
         SearchResponse response = client.search(searchRequest, RequestOptions.DEFAULT);
@@ -159,7 +201,7 @@ public class QueryTest {
     public void boolQueryTest() throws IOException {
         // 构建查询语句
         searchSourceBuilder.query(QueryBuilders.boolQuery()
-                .must(QueryBuilders.termQuery("sex", "女"))
+                .must(QueryBuilders.termQuery("sex.keyword", "女"))
                 .must(QueryBuilders.termQuery("sect.keyword", "明教"))
 
         );
@@ -173,7 +215,7 @@ public class QueryTest {
     public void boolQueryTest2() throws IOException {
         // 构建查询语句
         searchSourceBuilder.query(QueryBuilders.boolQuery()
-                .must(QueryBuilders.termQuery("sex", "女"))
+                .should(QueryBuilders.termQuery("sex", "女"))
                 .should(QueryBuilders.termQuery("address.word", "峨眉山"))
                 .should(QueryBuilders.termQuery("sect.keyword", "明教"))
                 .minimumShouldMatch(1)

@@ -15,6 +15,7 @@
         <module>rocketmq-demo</module>
         <module>quartz-demo</module>
         <module>stream-demo</module>
+        <module>websocket-demo</module>
     </modules>
 
     <parent>
